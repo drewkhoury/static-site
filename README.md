@@ -1,4 +1,4 @@
-# Demo of basic AWS CDK with Pyton
+# Demo of basic AWS CDK with Python
 
 This repo aims to:
 - Manage an infra stack via AWS CDK
