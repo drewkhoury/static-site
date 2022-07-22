@@ -1,0 +1,14 @@
+version: '3.6'
+services:
+  base:
+    build: .
+    image: pythoncdkcombo   
+    working_dir: /opt/stack
+    env_file:
+      - configs.env
+    stdin_open: true
+    tty: true 
+    volumes:
+      - $PWD:/opt/stack
+      - ~/.aws/:/root/.aws:ro
+  
