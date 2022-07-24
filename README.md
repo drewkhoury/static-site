@@ -1,8 +1,27 @@
 # Demo of basic AWS CDK with Python
 
-Run `make` to get started.
+## Getting started
 
-For more info on how this repo manages the infrastructure code see [infra/README.md](infra/README.md)
+Run `make` to get started. A containerized setup script will run the first time to ensure you have the right config.
+
+For more info on how this repo manages the infrastructure code see [infra/README.md](infra/README.md).
+
+## Using the development container
+
+If you need to run specific commands that aren't available as make targets, you can create a containerized shell with everything you need for CDK development and more. To create a new shell run `make sh`
+
+Once the container starts up you'll have a `/bin/bash` shell where you can run any commands you'd expect in a linux terminal.
+
+## What's under the hood?
+
+For those that are curious about what's under the hood, here are some key files:
+
+- [Dockerfile](Dockerfile) is a [node base container](https://hub.docker.com/_/node) with Python, AWS CLI, and AWS CDK added to it
+- [docker-compose.yml](docker-compose.yml) manages the execution of all tasks, and will show details of default working directories, volumes etc
+- [Makefile](Makefile) is your interface this repo, and will help run common tasks for you
+- [setup.sh](setup.sh) will guide you through file/AWS config and have you setup in no time!
+
+# About this repo
 
 This repo aims to:
 - Manage an infra stack via AWS CDK
