@@ -1,45 +1,8 @@
-
-# Welcome to your CDK Python project!
-
-This is a blank project for Python development with CDK.
+This is a project for Python development with CDK.
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
-This project is set up like a standard Python project.  The initialization
-process also creates a virtualenv within this project, stored under the `.venv`
-directory.  To create the virtualenv it assumes that there is a `python3`
-(or `python` for Windows) executable in your path with access to the `venv`
-package. If for any reason the automatic creation of the virtualenv fails,
-you can create the virtualenv manually.
-
-To manually create a virtualenv on MacOS and Linux:
-
-```
-$ python3 -m venv .venv
-```
-
-After the init process completes and the virtualenv is created, you can use the following
-step to activate your virtualenv.
-
-```
-$ source .venv/bin/activate
-```
-
-Once the virtualenv is activated, you can install the required dependencies.
-
-```
-$ pip install -r requirements.txt
-```
-
-At this point you can now synthesize the CloudFormation template for this code.
-
-```
-$ cdk synth
-```
-
-To add additional dependencies, for example other CDK libraries, just add
-them to your `setup.py` file and rerun the `pip install -r requirements.txt`
-command.
+The key file with infrastructure code is `foo/foo_stack.py`.
 
 ## Useful commands
 
@@ -49,4 +12,36 @@ command.
  * `cdk diff`        compare deployed stack with current state
  * `cdk docs`        open CDK documentation
 
-Enjoy!
+# How to operate
+
+All operations take place from the root of this repo via `make` commands.
+
+## Running CKD commands
+
+Run `make synth` to synthesize the CloudFormation template for this code.
+
+You can also run `make ls` to list all stacks in the app.
+
+You can add other commands, or run adhoc commands by creating your own
+development shell:
+
+```
+make sh
+```
+
+Within the development shell you can run any commands:
+
+```
+cd infra
+source .venv/bin/activate
+cdk ls
+```
+
+## Python dependencies
+A .venv will be created automatically the first time you run any CDK command.
+
+Once .venv exists, this project will not try to install any new dependencies.
+
+To add additional dependencies, for example other CDK libraries, just add
+them to your `setup.py` file and run the `make deps` command.
+
