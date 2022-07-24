@@ -1,4 +1,4 @@
-# Demo of basic AWS CDK with Pyton
+# Demo of basic AWS CDK with Python
 
 Run `make` to get started.
 
