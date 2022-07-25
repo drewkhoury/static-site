@@ -63,7 +63,7 @@ You will need the following values handy for a successful deployment:
 
 - APP_DOMAIN=www.example.com
 - APP_HOSTED_ZONE_NAME=example.com
-- APP_HOSTED_ZONE_ID=123ASDFGxxxR34T4V1C
+- APP_HOSTED_ZONE_ID=123xxxV1C
 
 You can update ~/configs.env manually at any time.
 "
@@ -165,7 +165,7 @@ confirm_aws_profile() {
     echo
   fi
 }
-confirm_aws_profile 'static-site-XXX'
+confirm_aws_profile 'static-site'
 
 
 
