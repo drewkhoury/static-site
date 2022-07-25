@@ -1,9 +1,9 @@
 {
   "app": "python3 app.py",
   "context": {
-    "@aws-cdk/core:enableStackNameDuplicates": "true",
-    "aws-cdk:enableDiffNoFail": "true",
-    "@aws-cdk/core:stackRelativeExports": "true",
-    "@aws-cdk/aws-ecr-assets:dockerIgnoreSupport": true
+    "namespace": "static-site",
+    "domain_name": "automationlab.click",
+    "hosted_zone_id": "Z0546627P0CZO171FC94",
+    "hosted_zone_name": "automationlab.click."
   }
 }

@@ -4,7 +4,7 @@ COMPOSE_BUILD = docker-compose build
 COMPOSE_RUN_GENERIC = docker-compose run --rm
 COMPOSE_RUN = docker-compose run --rm base
 PROFILE_NAME=static-site
-PROFILE = --profile ${PROFILE_NAME}
+PROFILE =--profile ${PROFILE_NAME}
 REGION = --region us-east-1
 ACTIVATE_PYTHON=. .venv/bin/activate &&
 
@@ -58,26 +58,33 @@ _deps:
 	&& ${ACTIVATE_PYTHON} pip install -r requirements.txt
 
 #-- CDK Commands
+
+.PHONY: bootstrap
+bootstrap: _env deps_check ## `cdk bootstrap`  - deploys the CDK toolkit stack into an AWS environment
+	${COMPOSE_RUN} make _bootstrap
+_bootstrap:
+	cd ${CDK_DIR} && ${ACTIVATE_PYTHON} cdk bootstrap ${PROFILE}
+
 .PHONY: ls
-ls: _env deps_check ## `cdk ls`     - list all stacks in the app
+ls: _env deps_check ## `cdk ls`         - list all stacks in the app
 	${COMPOSE_RUN} make _ls
 _ls:
-	cd ${CDK_DIR} && ${ACTIVATE_PYTHON} cdk ls
+	cd ${CDK_DIR} && ${ACTIVATE_PYTHON} cdk ls ${PROFILE}
 
 .PHONY: synth
-synth: _env deps_check ## `cdk synth`  - emits the synthesized CloudFormation template
+synth: _env deps_check ## `cdk synth`      - emits the synthesized CloudFormation template
 	${COMPOSE_RUN} make _synth
 _synth:
-	cd ${CDK_DIR} && ${ACTIVATE_PYTHON} cdk synth
+	cd ${CDK_DIR} && ${ACTIVATE_PYTHON} cdk synth ${PROFILE}
 
 .PHONY: diff
-diff: _env deps_check ## `cdk diff`   - compare deployed stack with current state
+diff: _env deps_check ## `cdk diff`       - compare deployed stack with current state
 	${COMPOSE_RUN} make _diff
 _diff:
-	cd ${CDK_DIR} && ${ACTIVATE_PYTHON} cdk diff
+	cd ${CDK_DIR} && ${ACTIVATE_PYTHON} cdk diff ${PROFILE}
 
 .PHONY: deploy
-deploy: _env deps_check ## `cdk deploy` - deploy this stack to your default AWS account/region
+deploy: _env deps_check ## `cdk deploy`     - deploy this stack to your default AWS account/region
 	${COMPOSE_RUN} make _deploy
 _deploy:
-	cd ${CDK_DIR} && ${ACTIVATE_PYTHON} cdk deploy
+	cd ${CDK_DIR} && ${ACTIVATE_PYTHON} cdk deploy ${PROFILE}

@@ -1,5 +1,28 @@
 #!/bin/bash
 
+software_info() {
+
+echo '
+
+---------- conatiner info ----------
+'
+
+echo "node: "
+node --version
+echo
+
+echo "cdk: "
+cdk --version
+echo
+
+python3 --version
+pip --version
+aws --version
+
+echo
+
+}
+
 echo '
 ################################################################################
 
@@ -27,13 +50,14 @@ then
     echo
 else
   echo 'setup aborted - you can run `make _setup` at any time.'
+  software_info
   exit
 fi
 
 echo "
 ---------- config (~/configs.env) ----------
 
-You should have already purchased a domain and have it available in AWS Route53.
+You should have a registered domain and HostedZone in Route53.
 
 You will need the following values handy for a successful deployment:
 
@@ -71,6 +95,9 @@ fi
 # if the user doesn't want to delete the config we should skip setting it at all
 if [ "$SETUP_CONFIGS_FILE" = true ] ; then
 
+  echo "Note: Config values aren't used yet so it's fine to set them to dummy data for now."
+  echo "Update config in infra/cdk.json manually."
+  echo 
   read -p "Configure configs.env with real data? Select no to load dummy data (y/n) " -n 1 -r
   echo
   if [[ $REPLY =~ ^[Yy]$ ]]
@@ -116,6 +143,14 @@ confirm_aws_profile() {
     echo "profile ${1} has NOT been setup. Configure it now for deployments to AWS.";
     echo 'If you are not ready to setup your AWS profile you can run `make aws_configure` later.'
     echo
+
+    echo ' The set of permissions that have been tested for this repo, for bootstrap and deploy commands, are:
+
+  - IAMFullAccess, AmazonSSMFullAccess, ecr:*
+  - AmazonS3FullAccess, CloudFrontFullAccess, AmazonRoute53FullAccess, AWSCloudFormationFullAccess
+'
+
+    echo
     read -p "Do you want to configure AWS credentials now? (y/n) " -n 1 -r
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]
@@ -130,7 +165,13 @@ confirm_aws_profile() {
     echo
   fi
 }
-confirm_aws_profile 'static-site'
+confirm_aws_profile 'static-site-XXX'
+
+
+
+software_info
+
+
 
 echo
 echo "setup complete."

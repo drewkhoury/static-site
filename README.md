@@ -1,8 +1,30 @@
-# Demo of basic AWS CDK with Python
+# Demo of a static site using AWS CDK with Python
+
+This repo will deploy a static site (S3, CloudFront and Route53) using CDK written in Python. All workstation dependencies have been containerized.
+
+![](https://github.com/aws-samples/aws-cdk-examples/raw/master/python/static-site/static-site.png)
+
+CDK code originally came from [aws-samples/aws-cdk-examples/python/static-site/](https://github.com/aws-samples/aws-cdk-examples/tree/master/python/static-site) but has since been modified.
 
 ## Getting started
 
-Run `make` to get started. A containerized setup script will run the first time to ensure you have the right config.
+Run `make` to get started. A containerized setup script will run the first time to ensure you have the right config and AWS profile.
+
+![](docs/make-startup.png)
+
+Once setup is complete, your `make` command will look like this:
+
+![](docs/make.png)
+
+### CDK Deployments
+
+You should be ready to run any of the CDK commands, and start deploying infrastrcuture to AWS.
+
+The typical flow at this point would be `make bootstrap` then `make deploy`.
+
+The `make bootstrap` command deploys the CDK toolkit stack into an AWS environment (creates a CloudFormation stack: `CDKToolkit`).
+
+The `make deploy` command deploys the stack to the AWS account/region (creates a CloudFormation stack: `static-site-stack`).
 
 For more info on how this repo manages the infrastructure code see [infra/README.md](infra/README.md).
 
@@ -12,6 +34,8 @@ If you need to run specific commands that aren't available as make targets, you 
 
 Once the container starts up you'll have a `/bin/bash` shell where you can run any commands you'd expect in a linux terminal.
 
+![](docs/make-sh.png)
+
 ## What's under the hood?
 
 For those that are curious about what's under the hood, here are some key files:
@@ -20,6 +44,10 @@ For those that are curious about what's under the hood, here are some key files:
 - [docker-compose.yml](docker-compose.yml) manages the execution of all tasks, and will show details of default working directories, volumes etc
 - [Makefile](Makefile) is your interface this repo, and will help run common tasks for you
 - [setup.sh](setup.sh) will guide you through file/AWS config and have you setup in no time!
+
+You can make you own modifications to the [Dockerfile](Dockerfile) then run `make rebuild_img` to rebuild the images and start using them.
+
+You can make changes to other key files if you need to extran functionality, like adding a new make target.
 
 # About this repo
 
@@ -38,9 +66,12 @@ Features:
 - setup script runs at very start of project, and whenever configs.env is empty 
 
 todo:
-- build out the actual infra code (in comments but needs to be reworked and cleaned up for python)
-- using python activate/venv (to ensure some caching between commands) but not sure if that's the ideal solution, it's make the make file a bit more complicated
+- use configs.env as when infra, currently CDK uses hardcodes in cdk.json
+- review/improve IAM permission requirements
+- include frontend files deploying to s3 bucket (currently manual)
 
 done:
+- build out the actual infra code
+- using python activate/venv (to ensure some caching between commands)
 - be more clear about requirements (key env vars, AWS creds etc) ... now a setup script that runs when needed
 - using a node image, so had to add python bits and CDK library in Dockerfile - ideally I'd like to use a well made image (tab complete doesn't work, up arrow for history doesn't work) ... was using /bin/sh but now defaulting to /bin/bash which seems to do what I expect it to in the terminal
