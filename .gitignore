@@ -2,7 +2,7 @@
 infra/.venv
 cdk.out
 **/.DS_Store
-config.env
+configs.env
 
 # from https://raw.githubusercontent.com/github/gitignore/main/Python.gitignore
 
