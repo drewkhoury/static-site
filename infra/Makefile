@@ -1,6 +1,7 @@
 PROFILE_NAME=static-site
 PROFILE =--profile ${PROFILE_NAME}
 ACTIVATE_PYTHON=. .venv/bin/activate &&
+CDK_CONTEXT=-c namespace=${APP_UNIQUE_NAME} -c domain_name=${APP_DOMAIN} -c hosted_zone_id=${APP_HOSTED_ZONE_ID} -c hosted_zone_name=${APP_DOMAIN}.
 
 help:
 	@grep -E '^[1-9a-zA-Z_-]+:.*?## .*$$|(^#--)' $(MAKEFILE_LIST) \
@@ -14,7 +15,8 @@ help:
 	@echo 'Run the following to exit python virtual env:'
 	@echo "deactivate"
 	@echo
-	@echo "Don't forget to use \`${PROFILE}\` for your cdk commands."
+	@echo "Example CDK command:"
+	@echo "${ACTIVATE_PYTHON} cdk command ${PROFILE} ${CDK_CONTEXT}"
 	@echo
 
 #-- Manage CDK Project
@@ -39,20 +41,20 @@ _deps:
 #-- CDK Commands
 .PHONY: bootstrap
 bootstrap: deps_check ## `cdk bootstrap` - deploys the CDK toolkit stack into an AWS environment
-	${ACTIVATE_PYTHON} cdk bootstrap ${PROFILE}
+	${ACTIVATE_PYTHON} cdk bootstrap ${PROFILE} ${CDK_CONTEXT}
 
 .PHONY: ls
 ls: deps_check ## `cdk ls`        - list all stacks in the app
-	${ACTIVATE_PYTHON} cdk ls ${PROFILE}
+	${ACTIVATE_PYTHON} cdk ls ${PROFILE} ${CDK_CONTEXT}
 
 .PHONY: synth
 synth: deps_check ## `cdk synth`     - emits the synthesized CloudFormation template
-	${ACTIVATE_PYTHON} cdk synth ${PROFILE}
+	${ACTIVATE_PYTHON} cdk synth ${PROFILE} ${CDK_CONTEXT}
 
 .PHONY: diff
 diff: deps_check ## `cdk diff`      - compare deployed stack with current state
-	${ACTIVATE_PYTHON} cdk diff ${PROFILE}
+	${ACTIVATE_PYTHON} cdk diff ${PROFILE} ${CDK_CONTEXT}
 
 .PHONY: deploy
 deploy: deps_check ## `cdk deploy`    - deploy this stack to your default AWS account/region
-	${ACTIVATE_PYTHON} cdk deploy ${PROFILE}
+	${ACTIVATE_PYTHON} cdk deploy ${PROFILE} ${CDK_CONTEXT}

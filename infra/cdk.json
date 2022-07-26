@@ -1,9 +1,3 @@
 {
-  "app": "python3 app.py",
-  "context": {
-    "namespace": "static-site",
-    "domain_name": "automationlab.click",
-    "hosted_zone_id": "Z0546627P0CZO171FC94",
-    "hosted_zone_name": "automationlab.click."
-  }
+  "app": "python3 app.py"
 }

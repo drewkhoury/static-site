@@ -57,13 +57,9 @@ fi
 echo "
 ---------- config (~/configs.env) ----------
 
-You should have a registered domain and HostedZone in Route53.
+You should have a registered domain and Hosted zone in Route53.
 
-You will need the following values handy for a successful deployment:
-
-- APP_DOMAIN=www.example.com
-- APP_HOSTED_ZONE_NAME=example.com
-- APP_HOSTED_ZONE_ID=123xxxV1C
+You will need your 'domain name' and 'Route 53 Hosted zone ID' for a successful deployment.
 
 You can update ~/configs.env manually at any time.
 "
@@ -95,22 +91,23 @@ fi
 # if the user doesn't want to delete the config we should skip setting it at all
 if [ "$SETUP_CONFIGS_FILE" = true ] ; then
 
-  echo "Note: Config values aren't used yet so it's fine to set them to dummy data for now."
-  echo "Update config in infra/cdk.json manually."
   echo 
   read -p "Configure configs.env with real data? Select no to load dummy data (y/n) " -n 1 -r
   echo
   if [[ $REPLY =~ ^[Yy]$ ]]
   then
     echo
+    echo "APP_UNIQUE_NAME - Used as a prefix for the resource names when creating infrastructure (eg static-site)"
+    echo "Enter the value for APP_UNIQUE_NAME:"
+    read APP_UNIQUE_NAME
+
+    echo
+    echo "APP_DOMAIN - A valid domain name (eg example.com)"
     echo "Enter the value for APP_DOMAIN:"
     read APP_DOMAIN
 
     echo
-    echo "Enter the value for APP_HOSTED_ZONE_NAME:"
-    read APP_HOSTED_ZONE_NAME
-
-    echo
+    echo "APP_HOSTED_ZONE_ID - Existing AWS Route53 Hosted Zone ID for the domain (eg Z248xxxCT25)"
     echo "Enter the value for APP_HOSTED_ZONE_ID:"
     read APP_HOSTED_ZONE_ID
   fi
@@ -119,8 +116,8 @@ if [ "$SETUP_CONFIGS_FILE" = true ] ; then
   echo "Creating the config file ~/configs.env"
   echo
 
-  echo "APP_DOMAIN=${APP_DOMAIN}" > ${PWD}/configs.env;
-  echo "APP_HOSTED_ZONE_NAME=${APP_HOSTED_ZONE_NAME}" >> ${PWD}/configs.env;
+  echo "APP_UNIQUE_NAME=${APP_UNIQUE_NAME}" > ${PWD}/configs.env;
+  echo "APP_DOMAIN=${APP_DOMAIN}" >> ${PWD}/configs.env;
   echo "APP_HOSTED_ZONE_ID=${APP_HOSTED_ZONE_ID}" >> ${PWD}/configs.env;
 
   echo "cat ~/configs.env"
