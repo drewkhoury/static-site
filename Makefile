@@ -1,13 +1,15 @@
+# varibles used by make
 SHELL=/bin/bash
 CDK_DIR=infra
 COMPOSE_BUILD = docker-compose build
 COMPOSE_RUN_GENERIC = docker-compose run --rm
 COMPOSE_RUN = docker-compose run --rm base
-PROFILE_NAME=static-site
-PROFILE =--profile ${PROFILE_NAME}
-REGION = --region us-east-1
+PROFILE =--profile ${AWS_PROFILE_NAME}
 ACTIVATE_PYTHON=. .venv/bin/activate &&
 CDK_CONTEXT=-c namespace=${APP_UNIQUE_NAME} -c domain_name=${APP_DOMAIN} -c hosted_zone_id=${APP_HOSTED_ZONE_ID} -c hosted_zone_name=${APP_DOMAIN}.
+
+# user input
+AWS_PROFILE_NAME ?=static-site
 
 help: _env
 	@grep -E '^[1-9a-zA-Z_-]+:.*?## .*$$|(^#--)' $(MAKEFILE_LIST) \
@@ -22,7 +24,7 @@ _env:
 
 _setup:
 	touch configs.env
-	${COMPOSE_RUN_GENERIC} setup /bin/bash ./setup.sh
+	${COMPOSE_RUN_GENERIC} -e AWS_PROFILE_NAME=${AWS_PROFILE_NAME} setup /bin/bash ./setup.sh
 
 #-- Misc
 .PHONY: sh
@@ -34,8 +36,8 @@ rebuild_img: ## rebuild container images used by compose
 	${COMPOSE_BUILD}
 
 .PHONY: aws_configure
-aws_configure: ## configure aws credentials for this project
-	${COMPOSE_RUN_GENERIC} aws configure --profile ${PROFILE_NAME}
+aws_configure: ## configure aws credentials for this project using profile AWS_PROFILE_NAME
+	${COMPOSE_RUN_GENERIC} aws configure --profile ${AWS_PROFILE_NAME}
 
 
 #-- Manage CDK Project

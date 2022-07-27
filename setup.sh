@@ -35,7 +35,7 @@ or you have recently removed `~/configs.env`.
 
 I will help you with 2 key setup tasks:
 - setup of `~/configs.env`
-- setup of AWS CLI profile named `static-site`
+- Confirm or setup your AWS Profile for CLI access
 
 You can always get back to this setup by running `make _setup`,
 or removing configs.env
@@ -86,6 +86,8 @@ if [ -s ${PWD}/configs.env ]; then
     echo "skipping configs.env config"
     SETUP_CONFIGS_FILE=false
   fi
+else
+  echo "Setup did not find a config file ~/configs.env - I can help generate one for you!"
 fi
 
 # if the user doesn't want to delete the config we should skip setting it at all
@@ -126,13 +128,13 @@ if [ "$SETUP_CONFIGS_FILE" = true ] ; then
 
 fi
 
-echo '
+echo "
 
 ---------- aws profile (~/.aws) ----------
 
-mounting `~/.aws` from your workstation.
-checking for aws profile `static-site`.
-'
+mounting ~/.aws from your workstation.
+checking for aws profile ${AWS_PROFILE_NAME}.
+"
 
 confirm_aws_profile() {
   profile_status=$( (aws configure --profile ${1} list ) 2>&1 )
@@ -162,7 +164,12 @@ confirm_aws_profile() {
     echo
   fi
 }
-confirm_aws_profile 'static-site'
+
+read -p "Set AWS Profile Name [${AWS_PROFILE_NAME}]: " AWS_PROFILE_NAME
+AWS_PROFILE_NAME=${AWS_PROFILE_NAME:-static-site}
+echo
+
+confirm_aws_profile ${AWS_PROFILE_NAME}
 
 
 

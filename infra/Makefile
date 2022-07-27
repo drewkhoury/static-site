@@ -1,5 +1,3 @@
-PROFILE_NAME=static-site
-PROFILE =--profile ${PROFILE_NAME}
 ACTIVATE_PYTHON=. .venv/bin/activate &&
 CDK_CONTEXT=-c namespace=${APP_UNIQUE_NAME} -c domain_name=${APP_DOMAIN} -c hosted_zone_id=${APP_HOSTED_ZONE_ID} -c hosted_zone_name=${APP_DOMAIN}.
 
