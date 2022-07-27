@@ -62,7 +62,7 @@ Features:
 - can rebuild compose images when you change the dockerfile
 - python deps via venv, and won't rebuilt if folder exists (to save time), can run `make deps` to override this
 - make has targets, with groups, and colors
-- 3 musketeers compliant, all driven by make which calls compose and docker, and making optimial use of conventions like `_target` and comments only for the targets users need to see
+- 3 musketeers compliant, all driven by make which calls compose and docker, and making optimal use of conventions like `_target` and comments only for the targets users need to see
 - setup script runs at very start of project, and whenever configs.env is empty 
 
 todo:
