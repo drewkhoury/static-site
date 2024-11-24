@@ -1,4 +1,4 @@
-FROM node:18.6.0
+FROM node:18.20.5
 
 RUN apt update
 RUN apt install -y pip python3-venv
